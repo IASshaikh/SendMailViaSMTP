@@ -18,7 +18,7 @@ namespace SendMailViaSMTP
         private void SendMailForm_Load(object sender, EventArgs e)
         {
             SqlConnection sqlconnection = new SqlConnection();
-            sqlconnection.ConnectionString = "server =IMRAN-PC; database =EmployeeDB; User ID =sa; Password =$Nextservices";
+            sqlconnection.ConnectionString = "server =MY-PC; database =EmployeeDB; User ID =sa; Password =mypassword";
             SqlCommand sqlCommand = new SqlCommand("select FirstName,LastName,Gender,Salary from Employees", sqlconnection); //select query command  
             SqlDataAdapter sqlDataAdapter = new System.Data.SqlClient.SqlDataAdapter();
             sqlDataAdapter.SelectCommand = sqlCommand; //add selected rows to sql data adapter  
@@ -26,7 +26,6 @@ namespace SendMailViaSMTP
 
             try
             {
-
                 sqlDataAdapter.Fill(dataSetEmployee, "employee"); //fill sql data adapter rows to data set  
                 dgvEmployee.ColumnCount = 4;
                 dgvEmployee.Columns[0].HeaderText = "First Name";
@@ -103,16 +102,14 @@ namespace SendMailViaSMTP
             try
             {
                 MailMessage message = new MailMessage();
-                SmtpClient smtp = new SmtpClient("secure.emailsrvr.com");
-                message.From = new MailAddress("automation@nextservices.com","automation");
-                message.To.Add("imrans@nextservices.com");
+                SmtpClient smtp = new SmtpClient("myserver.com");
+                message.From = new MailAddress("xyz@xyz.com","Imran");
+                message.To.Add("xyz@xyz.com");
                 message.Subject = "Test Send Mail Via SMTP";
                 message.IsBodyHtml = true; //to make message body as html  
                 //htmlString = "this is test mail";
                 message.Body = htmlString +"<font><br><br><p> Regards,<br> API Team </font> ";
-                //smtp.Port = 587;
-                //smtp.Host = "smtp.gmail.com"; //for host  
-                //smtp.Port = 465;
+                
 
 
                 //for attachement
@@ -126,10 +123,10 @@ namespace SendMailViaSMTP
                 IPAddress[] ip = Dns.GetHostAddresses(HostName);
                 string HostIPAddress = ip[1].ToString();
 
-                smtp.Host = "secure.emailsrvr.com"; //for host  
+                smtp.Host = "yourhost.com"; //for host  
                 smtp.EnableSsl = true;
                 smtp.UseDefaultCredentials = false;
-                smtp.Credentials = new NetworkCredential("nextreport@nextservices.com", "welcome@123");
+                smtp.Credentials = new NetworkCredential("yourmailid", "yourpassword");
                 
                 smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
                 smtp.Send(message);
